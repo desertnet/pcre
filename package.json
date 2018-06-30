@@ -3,15 +3,19 @@
   "version": "0.0.0",
   "description": "Perl compatible regular expressions for JavaScript",
   "main": "dist/lib/index.js",
+  "files": [
+    "dist",
+    "wasm"
+  ],
   "scripts": {
-    "build": "rimraf dist && babel -s inline -D src -d dist",
-    "clean": "rimraf dist coverage .nyc_output",
+    "build": "rimraf dist wasm && make && babel -s inline -D src -d dist",
+    "clean": "rimraf dist coverage .nyc_output build wasm",
     "lint": "eslint src test",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
     "preversion": "npm test && npm run lint",
-    "test": "cross-env NODE_ENV=test mocha --require @babel/register --throw-deprecation",
-    "test:coverage": "cross-env NODE_ENV=test nyc mocha",
+    "test": "make && cross-env NODE_ENV=test mocha --require @babel/register --throw-deprecation",
+    "test:coverage": "make && cross-env NODE_ENV=test nyc mocha",
     "test:watch": "chokidar src test mock fixtures --initial -c 'npm t'"
   },
   "repository": {
