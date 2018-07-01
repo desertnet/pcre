@@ -8,15 +8,15 @@
     "wasm"
   ],
   "scripts": {
-    "build": "rimraf dist wasm && make && babel -s inline -D src -d dist",
-    "clean": "rimraf dist coverage .nyc_output build wasm",
+    "build": "rimraf dist && make && babel -s inline -D src -d dist",
+    "clean": "rimraf dist coverage .nyc_output deps/build",
     "lint": "eslint src test",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
     "preversion": "npm test && npm run lint",
     "test": "make && cross-env NODE_ENV=test mocha --require @babel/register --throw-deprecation",
     "test:coverage": "make && cross-env NODE_ENV=test nyc mocha",
-    "test:watch": "chokidar src test mock fixtures --initial -c 'npm t'"
+    "test:watch": "chokidar src test mock fixtures Makefile --initial -c 'npm t'"
   },
   "repository": {
     "type": "git",
