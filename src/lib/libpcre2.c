@@ -4,6 +4,6 @@
 #include <pcre2.h>
 
 EMSCRIPTEN_KEEPALIVE
-void foo () {
-  return;
+size_t version (uint16_t* result) {
+  return pcre2_config(PCRE2_CONFIG_VERSION, result);
 }

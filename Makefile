@@ -3,7 +3,7 @@
 # using emscripten.
 # ----------------------------------------------------------------------
 
-EMSCRIPTEN_DOCKER_RUN=docker run --rm -v $(CURDIR)/deps/build:/src -u emscripten trzeci/emscripten
+EMSCRIPTEN_DOCKER_RUN=docker run --rm -v $(CURDIR)/deps/build:/src -v $(CURDIR)/src/lib:/src/lib -u emscripten trzeci/emscripten
 CC=$(EMSCRIPTEN_DOCKER_RUN) emcc
 
 export
@@ -12,7 +12,7 @@ export
 
 .PHONY: all deps
 
-all: dist/libpcre2.js dist/libpcre2.wasm
+all: dist/libpcre2.js
 
 dist:
 	mkdir -p dist
@@ -22,8 +22,16 @@ deps:
 
 # ----------------------------------------------------------------------
 
-dist/libpcre2.js dist/libpcre2.wasm: src/lib/libpcre2.c | deps dist
-	cat src/lib/libpcre2.c | $(CC) -s WASM=1 -I/src/local/include -L/src/local/lib -lpcre2-16 -o libpcre2.js -
-	cp deps/build/libpcre2.{js,wasm} dist/
+dist/libpcre2.js: src/lib/libpcre2.c | deps dist
+	$(CC) /src/lib/libpcre2.c \
+		-s EXPORT_NAME=PCRE2 \
+		-s WASM=1 \
+		-s SINGLE_FILE=1 \
+		-s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]' \
+		-I/src/local/include \
+		-L/src/local/lib \
+		-lpcre2-16 \
+		-o libpcre2.js
+	cp deps/build/libpcre2.js dist/
 
 # ----------------------------------------------------------------------
