@@ -16,4 +16,22 @@ describe(`PCRE`, function () {
       assert.strictEqual(version, `10.31 2018-02-12`)
     })
   })
+
+  describe(`constructor()`, function () {
+    it(`should not throw`, function () {
+      const re = new PCRE('aaa', 'i')
+      re.destroy()
+    })
+
+    it(`should throw on malformed pattern`, function () {
+      assert.throws(() => new PCRE('a(a'), /missing closing parenthesis/)
+    })
+
+    it(`should throw an error with correct offset property`, function () {
+      let err
+      try { new PCRE('a)aa') }
+      catch (e) { err = e }
+      assert.strictEqual(err.offset, 1)
+    })
+  })
 })
