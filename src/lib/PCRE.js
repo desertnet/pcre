@@ -15,6 +15,7 @@ export default class PCRE {
       malloc (bytes) { return libpcre2._malloc(bytes) },
       free (ptr) { return libpcre2._free(ptr) },
       version: libpcre2.cwrap('version', 'number', ['number']),
+      compile: libpcre2.cwrap('compile', 'number', ['array', 'number', 'string']),
     })
 
     initialized = true
@@ -26,6 +27,10 @@ export default class PCRE {
     const ptr = allocateStringBuffer(len)
     cfunc.version(ptr)
     return copyAndFreeStringBuffer(ptr, len)
+  }
+
+  constructor (pattern, flags) {
+    // TODO: Call cfunc.compile
   }
 }
 
