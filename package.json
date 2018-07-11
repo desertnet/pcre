@@ -1,6 +1,6 @@
 {
   "name": "@desertnet/pcre",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Perl compatible regular expressions for JavaScript",
   "main": "dist/lib/index.js",
   "files": [
