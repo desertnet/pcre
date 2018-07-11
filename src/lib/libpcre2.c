@@ -3,13 +3,26 @@
 #define PCRE2_CODE_UNIT_WIDTH 16
 #include <pcre2.h>
 
+// --------------------------------------------------------------------
+
 static int _lastErrorCode = 0;
 static PCRE2_SIZE _lastErrorOffset = 0;
 
 EMSCRIPTEN_KEEPALIVE
-size_t version (uint16_t* result) {
-  return pcre2_config(PCRE2_CONFIG_VERSION, result);
+PCRE2_SIZE lastErrorMessage (uint16_t* buffer, size_t bufferLength) {
+  // Going to trust that buffer is large enough for all messages, because
+  // we are the only callers of this function, and we also know that
+  // PCRE2 error messages are max 120 characters long.
+  if (_lastErrorCode == 0) return 0;
+  return pcre2_get_error_message(_lastErrorCode, buffer, bufferLength);
 }
+
+EMSCRIPTEN_KEEPALIVE
+PCRE2_SIZE lastErrorOffset () {
+  return _lastErrorOffset;
+}
+
+// --------------------------------------------------------------------
 
 EMSCRIPTEN_KEEPALIVE
 pcre2_code* compile (
@@ -47,16 +60,9 @@ void destroyCode (pcre2_code* code) {
   return pcre2_code_free(code);
 }
 
-EMSCRIPTEN_KEEPALIVE
-PCRE2_SIZE lastErrorMessage (uint16_t* buffer, size_t bufferLength) {
-  // Going to trust that buffer is large enough for all messages, because
-  // we are the only callers of this function, and we also know that
-  // PCRE2 error messages are max 120 characters long.
-  if (_lastErrorCode == 0) return 0;
-  return pcre2_get_error_message(_lastErrorCode, buffer, bufferLength);
-}
+// --------------------------------------------------------------------
 
 EMSCRIPTEN_KEEPALIVE
-PCRE2_SIZE lastErrorOffset () {
-  return _lastErrorOffset;
+size_t version (uint16_t* result) {
+  return pcre2_config(PCRE2_CONFIG_VERSION, result);
 }
