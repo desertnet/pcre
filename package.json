@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/limulus/pcre.git"
+    "url": "git+https://github.com/desertnet/pcre.git"
   },
   "keywords": [
     "pcre",
@@ -31,9 +31,9 @@
   "author": "Eric McCarthy <eric@limulus.net> (https://limulus.net/)",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/limulus/pcre/issues"
+    "url": "https://github.com/desertnet/pcre/issues"
   },
-  "homepage": "https://github.com/limulus/pcre#readme",
+  "homepage": "https://github.com/desertnet/pcre#readme",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.53",
     "@babel/core": "^7.0.0-beta.53",
