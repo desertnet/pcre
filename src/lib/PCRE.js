@@ -53,7 +53,6 @@ export default class PCRE {
   }
 
   destroy () {
-    assert(initialized)
     if (this[ptrSym] === 0) return
     cfunc.destroyCode(this[ptrSym])
     this[ptrSym] = 0
