@@ -31,8 +31,8 @@ build/local/include/pcre2.h build/local/lib/libpcre2-16.a: build/pcre2-$(PCRE2_V
 		&& emconfigure ./configure --prefix=/src/local \
 		                          --disable-pcre2-8 \
 			  											--enable-pcre2-16 \
-				  										--disable-shared \
-					  									--enable-static \
+															--disable-jit \
+															--with-heap-limit=2000000 \
 		&& emmake make \
 		&& emmake make install \
 	"
