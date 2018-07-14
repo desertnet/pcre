@@ -3,7 +3,7 @@
 # using emscripten.
 # ----------------------------------------------------------------------
 
-EMSCRIPTEN_DOCKER_RUN=docker run --rm -v $(CURDIR)/deps/build:/src -v $(CURDIR)/src/lib:/src/lib -u emscripten trzeci/emscripten
+EMSCRIPTEN_DOCKER_RUN=docker run --rm -v $(CURDIR)/deps/build:/src -v $(CURDIR)/src/lib:/src/lib -u emscripten trzeci/emscripten:sdk-tag-1.38.8-64bit
 CC=$(EMSCRIPTEN_DOCKER_RUN) emcc
 
 export
