@@ -20,6 +20,8 @@ export default class PCRE {
       destroyCode: libpcre2.cwrap('destroyCode', null, ['number']),
       lastErrorMessage: libpcre2.cwrap('lastErrorMessage', 'number', ['number', 'number']),
       lastErrorOffset: libpcre2.cwrap('lastErrorOffset', 'number'),
+      match: libpcre2.cwrap('match', 'number', ['number', 'array', 'number', 'number']),
+      destroyMatchData: libpcre2.cwrap('destroyMatchData', null, ['number']),
     })
 
     initialized = true
@@ -56,6 +58,25 @@ export default class PCRE {
     if (this[ptrSym] === 0) return
     cfunc.destroyCode(this[ptrSym])
     this[ptrSym] = 0
+  }
+
+  exec (subject, options) {
+    assert(this[ptrSym])
+
+    const {startOffset} = {
+      startOffset: 0,
+      ...options
+    }
+
+    subject = Buffer.from(subject, 'utf16le')
+    const matchDataPtr = cfunc.match(
+      this[ptrSym],
+      subject, subject.length / 2,
+      startOffset
+    )
+
+    cfunc.destroyMatchData(matchDataPtr)
+    return null
   }
 }
 

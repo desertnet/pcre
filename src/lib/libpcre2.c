@@ -63,6 +63,34 @@ void destroyCode (pcre2_code* code) {
 // --------------------------------------------------------------------
 
 EMSCRIPTEN_KEEPALIVE
+pcre2_match_data* match (
+  pcre2_code* code,
+  uint16_t* subject,
+  PCRE2_SIZE length,
+  PCRE2_SIZE offset
+) {
+  pcre2_match_data* result = pcre2_match_data_create_from_pattern(code, NULL);
+
+  // Commented out pcre2_match call because including it causes
+  // WebAssembly compiler in V8 to go into a long running and memory
+  // hungry loop. It seems to be fixed in V8 6.9, however Node.js
+  // currently runs V8 6.7. Unfortunately V8 6.8 is broken as well, and
+  // so it is not clear if this will get fixed until Node.js 11.0, which
+  // will use V8 7.0.
+
+  // pcre2_match(code, subject, length, offset, 0, result, NULL);
+
+  return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void destroyMatchData (pcre2_match_data* data) {
+  return pcre2_match_data_free(data);
+}
+
+// --------------------------------------------------------------------
+
+EMSCRIPTEN_KEEPALIVE
 size_t version (uint16_t* result) {
   return pcre2_config(PCRE2_CONFIG_VERSION, result);
 }

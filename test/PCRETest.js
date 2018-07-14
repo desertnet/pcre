@@ -34,4 +34,26 @@ describe(`PCRE`, function () {
       assert.strictEqual(err.offset, 1)
     })
   })
+
+  describe(`instance property`, function () {
+    describe.skip(`exec()`, function () {
+      let re
+
+      beforeEach(function () {
+        re = new PCRE('foo')
+      })
+
+      afterEach(function () {
+        re.destroy()
+      })
+
+      it(`should return null on no match`, function () {
+        assert.strictEqual(re.exec('bar'), null)
+      })
+
+      it(`should return array with matching string on match`, function () {
+        assert.strictEqual(re.exec('fo')[0], 'fo')
+      })
+    })
+  })
 })
