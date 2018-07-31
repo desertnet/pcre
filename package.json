@@ -29,7 +29,7 @@
     "regex"
   ],
   "author": "Eric McCarthy <eric@limulus.net> (https://limulus.net/)",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/desertnet/pcre/issues"
   },
